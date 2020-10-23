@@ -97,4 +97,23 @@ module.exports = (chai, utils) => {
 
     new Assertion(lastOpts).eql(opts);
   }));
+  
+  /**
+   * Check if a the call to `fetch()` on specific route had the property with value given,
+   * if the name of property includes a dot, delegates to nested.property chai method.
+   * @param {string} name - Name of the property or nested property path to check.
+   * @param {any} [value] - Value to check, if passed.
+   * @param {string} [msg] - Message to customize assertion.
+   * @throws {AssertionError} A route to test was not set with the `route()` function.
+   */
+  Assertion.overwriteMethod('property', withFlagCheck(function(route, name, value, msg) {
+    const lastOpts = this._obj.lastOptions(route);
+
+    if (name.includes('.')) {
+      new Assertion(lastOpts).to.have.nested.property(name, value, msg);
+    } else {
+      new Assertion(lastOpts).to.have.property(name, value, msg);
+    }
+  }));
+  
 };
