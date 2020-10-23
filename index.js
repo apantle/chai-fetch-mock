@@ -37,7 +37,8 @@ module.exports = (chai, utils) => {
    */
   Assertion.addMethod('route', function (str) {
     // Check if the object is fetch-mock
-    new Assertion(this._obj, `Expected ${this._obj} to be a fetch-mock object`).include.any.keys(['fetchMock', 'realFetch']);
+    // TODO: check assumption, maybe outdated for new versions of fetch-mock and sandbox
+    // new Assertion(this._obj, `Expected ${this._obj} to be a fetch-mock object`).include.any.keys(['fetchMock', 'realFetch']);
 
     // Check if the route exists
     const routes = this._obj.routes.map(r => r.name);
